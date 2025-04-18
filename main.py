@@ -753,14 +753,14 @@ def list_models():
     logger.info(f"Available models: {json.dumps(response, ensure_ascii=False)}")
     return response
 
+if not VALID_API_KEYS:
+    print("Warning: No API keys configured. Set the VALID_API_KEYS environment variable with comma-separated keys.")
+
+# 启动时初始化模型信息
+asyncio.run(model_manager.refresh_model_info())
+
 # 在main.py的最后初始化时添加环境变量检查：
 if __name__ == '__main__':
-    if not VALID_API_KEYS:
-        print("Warning: No API keys configured. Set the VALID_API_KEYS environment variable with comma-separated keys.")
-    
-    # 启动时初始化模型信息
-    asyncio.run(model_manager.refresh_model_info())
-    
     host = os.getenv("SERVER_HOST", "127.0.0.1")
     port = int(os.getenv("SERVER_PORT", 5000))
     logger.info(f"Starting server on http://{host}:{port}")

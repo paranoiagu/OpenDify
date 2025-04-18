@@ -1,0 +1,6 @@
+services:
+  manyit-opendify:
+    image: dockerpush.many-it.com:8086/manyit/manyit-opendify:1.0.0
+    build: .
+    ports: 
+      - "5000:5000"
