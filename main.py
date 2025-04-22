@@ -598,9 +598,8 @@ def chat_completions():
                                         
                                         elif dify_chunk.get("event") == "message_end":
                                             # 如果有retriever_resources，放在output_buffer输出
-                                            if isinstance(dify_chunk.get("metadata").get("retriever_resources"), list):
-                                                retriever_resources = dify_chunk.get("metadata").get("retriever_resources")
-
+                                            retriever_resources = dify_chunk.get("metadata").get("retriever_resources")
+                                            if isinstance(retriever_resources, list) and len(retriever_resources) > 0:
                                                 resource_content = "\n\n### 参考资料\n"
                                                 for resource in retriever_resources:
                                                     if isinstance(resource['doc_metadata'], dict) and 'wiki_url' in resource['doc_metadata']:

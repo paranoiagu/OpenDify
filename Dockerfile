@@ -10,4 +10,4 @@ COPY requirements.txt /app
 RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt -i https://maven.many-it.com/repository/pypi_proxy/simple
 
-CMD ["gunicorn", "--timeout", "600" "-w", "4", "-b", "0.0.0.0:5000", "main:app"]
+CMD ["gunicorn", "--timeout", "600", "-w", "4", "-b", "0.0.0.0:5000", "main:app"]
