@@ -601,11 +601,15 @@ def chat_completions():
                                             retriever_resources = dify_chunk.get("metadata").get("retriever_resources")
                                             if isinstance(retriever_resources, list) and len(retriever_resources) > 0:
                                                 resource_content = "\n\n### 参考资料\n"
+                                                seen_document_names = set()
                                                 for resource in retriever_resources:
-                                                    if isinstance(resource['doc_metadata'], dict) and 'wiki_url' in resource['doc_metadata']:
-                                                        resource_content += f"{resource['position']}. [{resource['document_name']}]({resource['doc_metadata']['wiki_url']})\n"
-                                                    else:
-                                                        resource_content += f"{resource['position']}. {resource['document_name']}\n"
+                                                    document_name = resource['document_name']
+                                                    if document_name not in seen_document_names:
+                                                        seen_document_names.add(document_name)
+                                                        if isinstance(resource['doc_metadata'], dict) and 'wiki_url' in resource['doc_metadata']:
+                                                            resource_content += f"{resource['position']}. [{document_name}]({resource['doc_metadata']['wiki_url']})\n"
+                                                        else:
+                                                            resource_content += f"{resource['position']}. {document_name}\n"
 
                                                 for char in resource_content:
                                                     output_buffer.append((char, generate.message_id))
